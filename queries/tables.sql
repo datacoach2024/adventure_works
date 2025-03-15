@@ -15,7 +15,7 @@ create table if not exists customers(
 
 
 create table if not exists territory(
-    territory_key serial  --Territory Key
+    territory_key integer  --Territory Key
     , region varchar(50)  --Region
     , country varchar(50)  --Country
     , geo_group varchar(50)  --Group
@@ -24,18 +24,18 @@ create table if not exists territory(
 
 
 create table if not exists product_category(
-    category_key serial  --ProductCategoryKey
+    category_key integer  --ProductCategoryKey
     , category_name varchar(50)  --EnglishProductCategoryName
     , primary key(category_key)
 );
 
 
 create table if not exists product_subcategory(
-    subcategory_key serial  --ProductSubcategoryKey
+    subcategory_key integer  --ProductSubcategoryKey
     , subcategory_name varchar(50)  --EnglishProductSubcategoryName
     , category_key integer  --ProductCategoryKey
     , primary key(subcategory_key)
-    , foreign key(category_key) references product_category(category_key) on delete cascade
+    , foreign key(category_key) references product_category(category_key)
 );
 
 
@@ -59,7 +59,7 @@ create table if not exists products(
     , end_date date  --EndDate
     , product_status varchar(20)  --Status 
     , primary key(product_key)
-    , foreign key(subcategory_key) references product_subcategory(subcategory_key) on delete cascade
+    , foreign key(subcategory_key) references product_subcategory(subcategory_key)
 );
 
 
@@ -77,7 +77,7 @@ create table if not exists sales(
     , sales_amount decimal  --SalesAmount
     , tax_amount decimal  --TaxAmt
     , freight decimal  --Freight
-    , foreign key(product_key) references products(product_key) on delete cascade
-    , foreign key(customer_key) references customers(customer_key) on delete cascade
-    , foreign key(territory_key) references territory(territory_key) on delete cascade
+    , foreign key(product_key) references products(product_key)
+    , foreign key(customer_key) references customers(customer_key)
+    , foreign key(territory_key) references territory(territory_key)
 )
