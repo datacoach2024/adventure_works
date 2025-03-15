@@ -13,3 +13,5 @@ select
 	, first_purchase_date
 	, date_diff('year', first_purchase_date, '{report_date}') as duration
 from customers
+where
+	first_purchase_date <= '{report_date}'
