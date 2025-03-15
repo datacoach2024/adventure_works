@@ -1,8 +1,3 @@
-create schema if not exists demo_dash;
-
-set search_path to demo_dash;
-
-
 create table if not exists customers(
     customer_key integer not null unique  --CustomerKey
     , full_name varchar(50) not null  --Name

@@ -1,5 +1,3 @@
-set search_path to demo_dash;
-
 create or replace view v_products as
 select
 	p.product_key
@@ -47,6 +45,6 @@ select
 	, s.tax_amount
 	, s.freight
 	, s.sales_amount - s.tax_amount - s.freight as margin
-from demo_dash.sales s
-	left join demo_dash.territory t 
+from sales s
+	left join territory t 
 		on s.territory_key = t.territory_key 

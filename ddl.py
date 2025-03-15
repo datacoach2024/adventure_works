@@ -1,10 +1,9 @@
 import json
 import pandas as pd
-from sqlalchemy import text
+import duckdb
 
-from connect import set_connection
+DB_FILE = 'my.db'
 
-SCHEMA = "demo_dash"
 
 def create_tables():
     try:
@@ -13,9 +12,8 @@ def create_tables():
             tables_query = f.read()
         
         # создаём схему и таблицы
-        with set_connection() as psg:
-            psg.execute(text(tables_query))
-            psg.commit()
+        with duckdb.connect(DB_FILE) as duck:
+            duck.execute(tables_query)
         
         print("Tables created successfully")
     except Exception as e:
@@ -37,23 +35,21 @@ with open('tables.json') as f:
 
 
 def insert_to_db(temp_df, tbl_name):
-    with set_connection() as psg:
-        temp_df.to_sql(
-            schema=SCHEMA,
-            name=tbl_name,
-            con=psg,
-            index=False,
-            if_exists='replace'
-        )
+    with duckdb.connect(DB_FILE) as duck:
+        duck.execute(f"""
+            insert into {tbl_name}
+            select *
+            from temp_df
+        """)
 
 
 def create_views():
     with open('queries/views.sql') as f:
         views = f.read()
 
-    with set_connection() as psg:
-        psg.execute(text(views))
-        psg.commit()
+    with duckdb.connect(DB_FILE) as duck:
+        duck.execute(views)
+        
 
     print("Views were successfully created")
 
@@ -66,8 +62,8 @@ def xl_etl(sheet_name, columns_dict, tbl_name):
 def create_n_insert():    
     try:
         print('try entrypoint')
-        with set_connection() as psg:
-            psg.execute(text("select 1 from demo_dash.sales"))
+        with duck.connect(DB_FILE) as duck:
+            duck.execute("select 1 from demo_dash.sales")
     except:
         print('except entrypoint')
         for k, v in tables_dict.items():
