@@ -69,6 +69,8 @@ marital_donut = px.pie(
     values='count',
     names='marital_status',
     hole=.5,
+    color='marital_status',
+    color_discrete_map={'M': 'lightgreen', 'S': 'lightgray'},
     title='Customers breakdown by marital status'
 )
 r2_col2.plotly_chart(marital_donut)
