@@ -5,6 +5,7 @@ import db
 
 
 st.title('Customer base analysis')
+st.write('---')
 
 min_date, max_date = db.fetch_date_boundaries()
 
