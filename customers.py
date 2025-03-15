@@ -3,6 +3,9 @@ import plotly.express as px
 import streamlit as st
 import db
 
+
+st.title('Customer base analysis')
+
 min_date, max_date = db.fetch_date_boundaries()
 
 with st.sidebar:
